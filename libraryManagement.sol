@@ -26,5 +26,14 @@ contract libraryManagement{
         emit bookUpdated(_id);
     }
 
-    
+    struct student{
+        string name;
+        uint256 roll;
+        uint256 year;
+        uint256 semester;
+        uint256 booksIssued;
+        uint256 booksReturned;
+    }
+    mapping(uint256 => student) public students;
+    uint256 public studentCount;
 }
