@@ -36,4 +36,30 @@ contract libraryManagement{
     }
     mapping(uint256 => student) public students;
     uint256 public studentCount;
+    event studentAdded(uint256 id);
+    event studentRemoved(uint256 id);
+    event studentUpdated(uint256 id);
+    function addStudent(string memory _name, uint256 _roll, uint256 _year, uint256 _semester) public{
+        studentCount++;
+        students[studentCount] = student(_name, _roll, _year, _semester, 0, 0);
+        emit studentAdded(studentCount);
+    }
+    function removeStudent(uint256 _id) public{
+        delete students[_id];
+        emit studentRemoved(_id);
+    }
+    function updateStudent(uint256 _id, string memory _name, uint256 _roll, uint256 _year, uint256 _semester) public{
+        students[_id] = student(_name, _roll, _year, _semester, 0, 0);
+        emit studentUpdated(_id);
+    }   
+    function issueBook(uint256 _studentId, uint256 _bookId) public{
+        students[_studentId].booksIssued++;
+        books[_bookId].quantity--;
+    }
+    function returnBook(uint256 _studentId, uint256 _bookId) public{
+        students[_studentId].booksReturned++;
+        books[_bookId].quantity++;
+    }
+
+    
 }
