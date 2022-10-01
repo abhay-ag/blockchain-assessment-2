@@ -33,6 +33,8 @@ contract libraryManagement{
         emit bookUpdated(_id);
     }
 
+    // this defines the structure of student
+    // consists of name, roll number, books issued and books returned
     struct student{
         string name;
         uint256 roll;
@@ -41,11 +43,14 @@ contract libraryManagement{
         uint256 booksIssued;
         uint256 booksReturned;
     }
+    // creates a mapping of the student structure   
     mapping(uint256 => student) public students;
     uint256 public studentCount;
     event studentAdded(uint256 id);
     event studentRemoved(uint256 id);
     event studentUpdated(uint256 id);
+
+    // function defenitions for the structure student
     function addStudent(string memory _name, uint256 _roll, uint256 _year, uint256 _semester) public{
         studentCount++;
         students[studentCount] = student(_name, _roll, _year, _semester, 0, 0);
@@ -68,6 +73,7 @@ contract libraryManagement{
         books[_bookId].quantity++;
     }
 
+    // function to get the number of books of a certain type
     function getBooksQuantity(uint256 _bookId) public view returns(uint256){
         return books[_bookId].quantity;
     }   
