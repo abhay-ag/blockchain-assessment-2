@@ -1,17 +1,24 @@
 pragma solidity ^0.8.0;
 
 contract libraryManagement{
+    // this defines the structure of book
+    // consists of name, author, price, and quantity
     struct book{
         string name;
         string author;
         uint256 price;
         uint256 quantity;
     }
+    // creates a mapping of the book structure
     mapping(uint256 => book) public books;
     uint256 public bookCount;
+
+    // events for the contract
     event bookAdded(uint256 id);
     event bookRemoved(uint256 id);
     event bookUpdated(uint256 id);
+
+    // function defenitions for the structure book 
     function addBook(string memory _name, string memory _author, uint256 _price, uint256 _quantity) public{
         bookCount++;
         books[bookCount] = book(_name, _author, _price, _quantity);
@@ -64,5 +71,4 @@ contract libraryManagement{
     function getBooksQuantity(uint256 _bookId) public view returns(uint256){
         return books[_bookId].quantity;
     }   
-    
 }
