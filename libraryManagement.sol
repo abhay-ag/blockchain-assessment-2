@@ -61,5 +61,8 @@ contract libraryManagement{
         books[_bookId].quantity++;
     }
 
+    function getBooksQuantity(uint256 _bookId) public view returns(uint256){
+        return books[_bookId].quantity;
+    }   
     
 }
