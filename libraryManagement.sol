@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
 contract libraryManagement{
@@ -10,8 +11,8 @@ contract libraryManagement{
         uint256 quantity;
     }
     // creates a mapping of the book structure
-    mapping(uint256 => book) public books;
-    uint256 public bookCount;
+    mapping(uint256 => book) private books;
+    uint256 private bookCount;
 
     // events for the contract
     event bookAdded(uint256 id);
@@ -44,11 +45,9 @@ contract libraryManagement{
         uint256 booksReturned;
     }
     // creates a mapping of the student structure   
-    mapping(uint256 => student) public students;
-    uint256 public studentCount;
+    mapping(uint256 => student) private students;
+    uint256 private studentCount;
     event studentAdded(uint256 id);
-    event studentRemoved(uint256 id);
-    event studentUpdated(uint256 id);
 
     // function defenitions for the structure student
     function addStudent(string memory _name, uint256 _roll, uint256 _year, uint256 _semester) public{
@@ -56,21 +55,15 @@ contract libraryManagement{
         students[studentCount] = student(_name, _roll, _year, _semester, 0, 0);
         emit studentAdded(studentCount);
     }
-    function removeStudent(uint256 _id) public{
-        delete students[_id];
-        emit studentRemoved(_id);
-    }
-    function updateStudent(uint256 _id, string memory _name, uint256 _roll, uint256 _year, uint256 _semester) public{
-        students[_id] = student(_name, _roll, _year, _semester, 0, 0);
-        emit studentUpdated(_id);
-    }   
-    function issueBook(uint256 _studentId, uint256 _bookId) public{
+    function issueBook(uint256 _studentId, uint256 _bookId) public returns(uint256){
         students[_studentId].booksIssued++;
         books[_bookId].quantity--;
+        return students[_studentId].booksIssued;
     }
-    function returnBook(uint256 _studentId, uint256 _bookId) public{
+    function returnBook(uint256 _studentId, uint256 _bookId) public returns(uint256){
         students[_studentId].booksReturned++;
         books[_bookId].quantity++;
+        return students[_studentId].booksReturned;
     }
 
     // function to get the number of books of a certain type
