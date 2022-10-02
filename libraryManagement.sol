@@ -77,4 +77,13 @@ contract libraryManagement{
     function getBooksQuantity(uint256 _bookId) public view returns(uint256){
         return books[_bookId].quantity;
     }   
+
+    function getBookIssuedByStudent (uint256 _studentId) public view returns(uint256){
+        for(uint i = 0; i < students.length; i++){
+            if(students[i].roll == _studentId){
+                return students[i].booksIssued;
+            }
+        }
+        return 0;
+    }
 }
