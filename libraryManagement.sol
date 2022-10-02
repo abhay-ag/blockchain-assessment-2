@@ -45,25 +45,36 @@ contract libraryManagement{
         uint256 booksReturned;
     }
     // creates a mapping of the student structure   
-    mapping(uint256 => student) private students;
+    // mapping(uint256 => student) private students;
+    student[] private students;
     uint256 private studentCount;
     event studentAdded(uint256 id);
 
     // function defenitions for the structure student
     function addStudent(string memory _name, uint256 _roll, uint256 _year, uint256 _semester) public{
         studentCount++;
-        students[studentCount] = student(_name, _roll, _year, _semester, 0, 0);
+        students.push(student(_name, _roll, _year, _semester, 0, 0));
         emit studentAdded(studentCount);
     }
     function issueBook(uint256 _studentId, uint256 _bookId) public returns(uint256){
-        students[_studentId].booksIssued++;
-        books[_bookId].quantity--;
-        return students[_studentId].booksIssued;
+        for(uint i = 0; i < students.length; i++){
+            if(students[i].roll == _studentId){
+                students[i].booksIssued++;
+                books[_bookId].quantity--;
+                return students[i].booksIssued;
+            }
+        }
+        return 0;
     }
     function returnBook(uint256 _studentId, uint256 _bookId) public returns(uint256){
-        students[_studentId].booksReturned++;
-        books[_bookId].quantity++;
-        return students[_studentId].booksReturned;
+        for(uint i = 0; i < students.length; i++){
+            if(students[i].roll == _studentId){
+                students[i].booksReturned++;
+                books[_bookId].quantity++;
+                return students[i].booksReturned;
+            }
+        }
+        return 0;
     }
 
     // function to get the number of books of a certain type
