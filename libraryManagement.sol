@@ -56,25 +56,21 @@ contract libraryManagement{
         students.push(student(_name, _roll, _year, _semester, 0, 0));
         emit studentAdded(studentCount);
     }
-    function issueBook(uint256 _studentId, uint256 _bookId) public returns(uint256){
+    function issueBook(uint256 _studentId, uint256 _bookId) public{
         for(uint i = 0; i < students.length; i++){
             if(students[i].roll == _studentId){
                 students[i].booksIssued++;
                 books[_bookId].quantity--;
-                return students[i].booksIssued;
             }
         }
-        return 0;
     }
-    function returnBook(uint256 _studentId, uint256 _bookId) public returns(uint256){
+    function returnBook(uint256 _studentId, uint256 _bookId) public{
         for(uint i = 0; i < students.length; i++){
             if(students[i].roll == _studentId){
                 students[i].booksReturned++;
                 books[_bookId].quantity++;
-                return students[i].booksReturned;
             }
         }
-        return 0;
     }
 
     // function to get the number of books of a certain type
